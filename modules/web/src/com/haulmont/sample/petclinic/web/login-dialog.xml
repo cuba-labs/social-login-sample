@@ -64,6 +64,20 @@
                         action="submit"
                         stylename="c-login-submit-button"/>
             </vbox>
+            <hbox align="TOP_CENTER"
+                  margin="true;false;false;false"
+                  spacing="true"
+                  width="AUTO">
+                <linkButton id="fbLogin"
+                            icon="FACEBOOK"
+                            stylename="social-button large"/>
+                <linkButton id="twLogin"
+                            icon="TWITTER"
+                            stylename="social-button large"/>
+                <linkButton id="ghLogin"
+                            icon="GITHUB"
+                            stylename="social-button large"/>
+            </hbox>
         </vbox>
     </layout>
 </window>

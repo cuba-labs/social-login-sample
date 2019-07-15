@@ -1,0 +1,69 @@
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="mainMsg://loginWindow.loginField">
+
+    <actions>
+        <action id="submit"
+                caption="mainMsg://loginWindow.okButton"
+                icon="app/images/login-button.png"
+                invoke="performLogin" shortcut="ENTER"/>
+    </actions>
+
+    <layout>
+        <vbox id="loginMainBox"
+              align="MIDDLE_CENTER"
+              margin="true"
+              width="320">
+            <hbox id="loginTitleBox"
+                  align="MIDDLE_CENTER"
+                  spacing="true"
+                  stylename="c-login-title">
+                <image id="logoImage"
+                       align="MIDDLE_LEFT"
+                       height="AUTO"
+                       scaleMode="SCALE_DOWN"
+                       stylename="c-login-icon"
+                       width="AUTO"/>
+
+                <label id="welcomeLabel"
+                       align="MIDDLE_LEFT"
+                       stylename="c-login-caption"
+                       value="mainMsg://loginDialog.label"/>
+            </hbox>
+
+            <capsLockIndicator id="capsLockIndicator"
+                               align="MIDDLE_CENTER"
+                               stylename="c-login-capslockindicator"/>
+            <vbox id="loginForm"
+                  spacing="true"
+                  stylename="c-login-form">
+                <cssLayout id="loginCredentials"
+                           stylename="c-login-credentials">
+                    <textField id="loginField"
+                               htmlName="loginField"
+                               inputPrompt="mainMsg://loginWindow.loginPlaceholder"
+                               stylename="c-login-username"/>
+                    <passwordField id="passwordField"
+                                   autocomplete="true"
+                                   htmlName="passwordField"
+                                   inputPrompt="mainMsg://loginWindow.passwordPlaceholder"
+                                   capsLockIndicator="capsLockIndicator"
+                                   stylename="c-login-password"/>
+                </cssLayout>
+                <hbox id="rememberLocalesBox"
+                      stylename="c-login-remember-locales">
+                    <checkBox id="rememberMeCheckBox"
+                              caption="mainMsg://loginWindow.rememberMe"
+                              stylename="c-login-remember-me"/>
+                    <lookupField id="localesSelect"
+                                 nullOptionVisible="false"
+                                 stylename="c-login-locale"
+                                 textInputAllowed="false"/>
+                </hbox>
+                <button id="loginButton"
+                        align="MIDDLE_CENTER"
+                        action="submit"
+                        stylename="c-login-submit-button"/>
+            </vbox>
+        </vbox>
+    </layout>
+</window>

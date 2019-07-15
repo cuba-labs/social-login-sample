@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<default-permission-values xmlns="http://schemas.haulmont.com/cuba/default-permission-values.xsd">
+    <!-- Permit to open LoginDialog for all roles by default -->
+    <permission target="LoginDialog" value="1" type="10"/>
+</default-permission-values>

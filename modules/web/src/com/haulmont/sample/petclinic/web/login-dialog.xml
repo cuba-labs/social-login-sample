@@ -68,11 +68,11 @@
                   margin="true;false;false;false"
                   spacing="true"
                   width="AUTO">
+                <linkButton id="googleLogin"
+                            icon="GOOGLE"
+                            stylename="social-button large"/>
                 <linkButton id="fbLogin"
                             icon="FACEBOOK"
-                            stylename="social-button large"/>
-                <linkButton id="twLogin"
-                            icon="TWITTER"
                             stylename="social-button large"/>
                 <linkButton id="ghLogin"
                             icon="GITHUB"

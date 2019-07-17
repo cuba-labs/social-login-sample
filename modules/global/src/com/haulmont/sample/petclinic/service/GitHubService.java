@@ -2,18 +2,17 @@ package com.haulmont.sample.petclinic.service;
 
 import java.io.Serializable;
 
-public interface FacebookService {
+public interface GitHubService {
 
-    String NAME = "petclinic_FacebookService";
+    String NAME = "petclinic_GitHubService";
 
     String getLoginUrl(String appUrl, OAuth2ResponseType responseType);
 
-    FacebookUserData getUserData(String appUrl, String code);
+    GitHubUserData getUserData(String appUrl, String code);
 
     enum OAuth2ResponseType {
-        CODE("code"),
-        TOKEN("token"),
-        CODE_TOKEN("code%20token");
+
+        CODE("code");
 
         private final String id;
 
@@ -26,16 +25,16 @@ public interface FacebookService {
         }
     }
 
-    class FacebookUserData implements Serializable {
+    class GitHubUserData implements Serializable {
 
         private String id;
         private String name;
-        private String email;
+        private String login;
 
-        public FacebookUserData(String id, String name, String email) {
+        public GitHubUserData(String id, String name, String login) {
             this.id = id;
             this.name = name;
-            this.email = email;
+            this.login = login;
         }
 
         public String getId() {
@@ -46,16 +45,15 @@ public interface FacebookService {
             return name;
         }
 
-        public String getEmail() {
-            return email;
+        public String getLogin() {
+            return login;
         }
 
         @Override
         public String toString() {
-            return "FacebookUserData{" +
+            return "GitHubUserData{" +
                     "id='" + id + '\'' +
                     ", name='" + name + '\'' +
-                    ", email='" + email + '\'' +
                     '}';
         }
     }

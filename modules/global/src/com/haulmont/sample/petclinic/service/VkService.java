@@ -2,18 +2,17 @@ package com.haulmont.sample.petclinic.service;
 
 import java.io.Serializable;
 
-public interface FacebookService {
+public interface VkService {
 
-    String NAME = "petclinic_FacebookService";
+    String NAME = "petclinic_VkService";
 
-    String getLoginUrl(String appUrl, OAuth2ResponseType responseType);
+    String getLoginUrl(String appUrl, VkService.OAuth2ResponseType responseType);
 
-    FacebookUserData getUserData(String appUrl, String code);
+    VkUserData getUserData(String appUrl, String code);
 
     enum OAuth2ResponseType {
-        CODE("code"),
-        TOKEN("token"),
-        CODE_TOKEN("code%20token");
+
+        CODE("code");
 
         private final String id;
 
@@ -26,16 +25,16 @@ public interface FacebookService {
         }
     }
 
-    class FacebookUserData implements Serializable {
+    class VkUserData implements Serializable {
 
         private String id;
         private String name;
-        private String email;
+        private String screenName;
 
-        public FacebookUserData(String id, String name, String email) {
+        public VkUserData(String id, String name, String screenName) {
             this.id = id;
             this.name = name;
-            this.email = email;
+            this.screenName = screenName;
         }
 
         public String getId() {
@@ -46,16 +45,16 @@ public interface FacebookService {
             return name;
         }
 
-        public String getEmail() {
-            return email;
+        public String getScreenName() {
+            return screenName;
         }
 
         @Override
         public String toString() {
-            return "FacebookUserData{" +
+            return "VkUserData{" +
                     "id='" + id + '\'' +
                     ", name='" + name + '\'' +
-                    ", email='" + email + '\'' +
+                    ", screenName='" + screenName + '\'' +
                     '}';
         }
     }

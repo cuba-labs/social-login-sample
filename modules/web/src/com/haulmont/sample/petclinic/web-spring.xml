@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:gui="http://schemas.haulmont.com/cuba/spring/cuba-gui.xsd"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:gui="http://schemas.haulmont.com/cuba/spring/cuba-gui.xsd"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-  <!-- Annotation-based beans -->
-  <context:component-scan base-package="com.haulmont.sample.petclinic"/>
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="com.haulmont.sample.petclinic"/>
 
-  <gui:screens base-packages="com.haulmont.sample.petclinic.web"/>
+    <gui:screens base-packages="com.haulmont.sample.petclinic.web"/>
     <bean id="petclinic_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
         <property name="serverSelector" ref="cuba_ServerSelector"/>
         <property name="remoteServices">
             <map>
-                <entry key="petclinic_FacebookService" value="com.haulmont.sample.petclinic.service.FacebookService"/>
                 <entry key="petclinic_SocialRegistrationService"
                        value="com.haulmont.sample.petclinic.service.SocialRegistrationService"/>
+                <entry key="petclinic_GoogleService"
+                       value="com.haulmont.sample.petclinic.service.GoogleService"/>
+                <entry key="petclinic_FacebookService"
+                       value="com.haulmont.sample.petclinic.service.FacebookService"/>
+                <entry key="petclinic_GitHubService"
+                       value="com.haulmont.sample.petclinic.service.GitHubService"/>
+                <entry key="petclinic_VkService"
+                       value="com.haulmont.sample.petclinic.service.VkService"/>
             </map>
         </property>
     </bean>

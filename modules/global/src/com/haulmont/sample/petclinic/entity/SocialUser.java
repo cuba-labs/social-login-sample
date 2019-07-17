@@ -14,6 +14,39 @@ public class SocialUser extends User {
     @Column(name = "FACEBOOK_ID")
     protected String facebookId;
 
+    @Column(name = "GOOGLE_ID")
+    protected String googleId;
+
+    @Column(name = "GITHUB_ID")
+    protected String githubId;
+
+    @Column(name = "VK_ID")
+    protected String vkId;
+
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    public String getGithubId() {
+        return githubId;
+    }
+
+    public void setGithubId(String githubId) {
+        this.githubId = githubId;
+    }
+
+    public String getVkId() {
+        return vkId;
+    }
+
+    public void setVkId(String vkId) {
+        this.vkId = vkId;
+    }
+
     public String getFacebookId() {
         return facebookId;
     }

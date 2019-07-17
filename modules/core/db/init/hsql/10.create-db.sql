@@ -110,3 +110,12 @@ create table PETCLINIC_VET_SPECIALTY_LINK (
     primary key (VET_ID, SPECIALTY_ID)
 )^
 -- end PETCLINIC_VET_SPECIALTY_LINK
+
+-- begin SEC_USER
+alter table SEC_USER add column FACEBOOK_ID varchar(255) ^
+alter table SEC_USER add column GOOGLE_ID varchar(255) ^
+alter table SEC_USER add column GITHUB_ID varchar(255) ^
+alter table SEC_USER add column VK_ID varchar(255) ^
+alter table SEC_USER add column DTYPE varchar(100) ^
+update SEC_USER set DTYPE = 'petclinic_SocialUser' where DTYPE is null ^
+-- end SEC_USER

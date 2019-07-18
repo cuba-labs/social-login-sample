@@ -1,4 +1,4 @@
-package com.haulmont.sample.petclinic.config;
+package com.haulmont.sample.petclinic.core.config;
 
 import com.haulmont.cuba.core.config.Config;
 import com.haulmont.cuba.core.config.Property;

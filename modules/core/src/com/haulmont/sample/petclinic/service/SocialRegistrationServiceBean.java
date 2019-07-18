@@ -8,7 +8,8 @@ import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.core.global.View;
 import com.haulmont.cuba.security.entity.Group;
 import com.haulmont.cuba.security.entity.User;
-import com.haulmont.sample.petclinic.config.SocialRegistrationConfig;
+import com.haulmont.sample.petclinic.auth.SocialService;
+import com.haulmont.sample.petclinic.core.config.SocialRegistrationConfig;
 import com.haulmont.sample.petclinic.entity.SocialUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,15 +31,9 @@ public class SocialRegistrationServiceBean implements SocialRegistrationService 
 
     @Override
     @Transactional
-    public User findOrRegisterGoogleUser(String googleId, String name, String email) {
-        EntityManager em = persistence.getEntityManager();
-
+    public User findOrRegisterUser(String socialServiceId, String login, String name, SocialService socialService) {
         // Find existing user
-        TypedQuery<SocialUser> query = em
-                .createQuery("select u from sec$User u where u.googleId = :googleId",
-                        SocialUser.class);
-        query.setParameter("googleId", googleId);
-        query.setViewName(View.LOCAL);
+        TypedQuery<SocialUser> query = getUserQuery(socialService, socialServiceId);
 
         SocialUser existingUser = query.getFirstResult();
         if (existingUser != null) {
@@ -47,126 +42,61 @@ public class SocialRegistrationServiceBean implements SocialRegistrationService 
 
         SocialRegistrationConfig config = configuration.getConfig(SocialRegistrationConfig.class);
 
-        Group defaultGroup = em.find(Group.class, config.getDefaultGroupId(), View.MINIMAL);
-
-        // Register new user
-        SocialUser user = metadata.create(SocialUser.class);
-        user.setGoogleId(googleId);
-        user.setName(name);
-        user.setGroup(defaultGroup);
-        user.setActive(true);
-        user.setEmail(email);
-        user.setLogin(email);
-
-        em.persist(user);
-
-        return user;
-    }
-
-    @Override
-    @Transactional
-    public User findOrRegisterFacebookUser(String facebookId, String name, String email) {
         EntityManager em = persistence.getEntityManager();
-
-        // Find existing user
-        TypedQuery<SocialUser> query = em.createQuery("select u from sec$User u where u.facebookId = :facebookId",
-                SocialUser.class);
-        query.setParameter("facebookId", facebookId);
-        query.setViewName(View.LOCAL);
-
-        SocialUser existingUser = query.getFirstResult();
-        if (existingUser != null) {
-            return existingUser;
-        }
-
-        SocialRegistrationConfig config = configuration.getConfig(SocialRegistrationConfig.class);
-
         Group defaultGroup = em.find(Group.class, config.getDefaultGroupId(), View.MINIMAL);
 
         // Register new user
         SocialUser user = metadata.create(SocialUser.class);
-        user.setFacebookId(facebookId);
-        user.setEmail(email);
-        user.setName(name);
-        user.setGroup(defaultGroup);
-        user.setActive(true);
-        user.setLogin(email);
-
-        em.persist(user);
-
-        return user;
-    }
-
-    @Override
-    @Transactional
-    public User findOrRegisterGitHubUser(String githubId, String name, String login) {
-        EntityManager em = persistence.getEntityManager();
-
-        // Find existing user
-        TypedQuery<SocialUser> query = em
-                .createQuery("select u from sec$User u where u.githubId = :githubId",
-                        SocialUser.class);
-        query.setParameter("githubId", githubId);
-        query.setViewName(View.LOCAL);
-
-        SocialUser existingUser = query.getFirstResult();
-        if (existingUser != null) {
-            return existingUser;
-        }
-
-        SocialRegistrationConfig config = configuration.getConfig(SocialRegistrationConfig.class);
-
-        Group defaultGroup = em.find(Group.class, config.getDefaultGroupId(), View.MINIMAL);
-
-        // Register new user
-        SocialUser user = metadata.create(SocialUser.class);
-        user.setGithubId(githubId);
-        user.setName(name);
-        user.setGroup(defaultGroup);
-        user.setActive(true);
         user.setLogin(login);
+        user.setName(name);
+        user.setGroup(defaultGroup);
+        user.setActive(true);
 
         if (isEmail(login)) {
             user.setEmail(login);
         }
 
+        switch (socialService) {
+            case GOOGLE:
+                user.setGoogleId(socialServiceId);
+                break;
+            case FACEBOOK:
+                user.setFacebookId(socialServiceId);
+                break;
+            case GITHUB:
+                user.setGithubId(socialServiceId);
+                break;
+        }
+
         em.persist(user);
 
         return user;
     }
 
-    @Override
-    @Transactional
-    public User findOrRegisterVkUser(String vkId, String name, String screenName) {
+    private TypedQuery<SocialUser> getUserQuery(SocialService socialService, String socialServiceId) {
         EntityManager em = persistence.getEntityManager();
 
-        // Find existing user
-        TypedQuery<SocialUser> query = em
-                .createQuery("select u from sec$User u where u.vkId = :vkId",
-                        SocialUser.class);
-        query.setParameter("vkId", vkId);
+        String socialIdParam = getSocialIdParamName(socialService);
+
+        TypedQuery<SocialUser> query = em.createQuery("select u from sec$User u where " +
+                        String.format("u.%s = :%s", socialIdParam, socialIdParam),
+                SocialUser.class);
+        query.setParameter(socialIdParam, socialServiceId);
         query.setViewName(View.LOCAL);
 
-        SocialUser existingUser = query.getFirstResult();
-        if (existingUser != null) {
-            return existingUser;
+        return query;
+    }
+
+    private String getSocialIdParamName(SocialService socialService) {
+        switch (socialService) {
+            case GOOGLE:
+                return "googleId";
+            case FACEBOOK:
+                return "facebookId";
+            case GITHUB:
+                return "githubId";
         }
-
-        SocialRegistrationConfig config = configuration.getConfig(SocialRegistrationConfig.class);
-
-        Group defaultGroup = em.find(Group.class, config.getDefaultGroupId(), View.MINIMAL);
-
-        // Register new user
-        SocialUser user = metadata.create(SocialUser.class);
-        user.setVkId(vkId);
-        user.setName(name);
-        user.setGroup(defaultGroup);
-        user.setActive(true);
-        user.setLogin(screenName);
-
-        em.persist(user);
-
-        return user;
+        throw new IllegalArgumentException("No social id param found for service: " + socialService);
     }
 
     private boolean isEmail(String s) {

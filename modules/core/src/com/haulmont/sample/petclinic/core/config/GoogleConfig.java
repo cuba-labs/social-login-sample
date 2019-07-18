@@ -7,15 +7,15 @@ import com.haulmont.cuba.core.config.SourceType;
 import com.haulmont.cuba.core.config.defaults.Default;
 
 @Source(type = SourceType.APP)
-public interface FacebookConfig extends Config, SocialServiceConfig {
+public interface GoogleConfig extends Config, SocialServiceConfig {
 
-    @Property("facebook.clientId")
+    @Property("google.clientId")
     String getClientId();
 
-    @Property("facebook.clientSecret")
+    @Property("google.clientSecret")
     String getClientSecret();
 
     @Default("id,name,email")
-    @Property("facebook.userDataFields")
+    @Property("google.userDataFields")
     String getUserDataFields();
 }

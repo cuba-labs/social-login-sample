@@ -16,14 +16,8 @@
             <map>
                 <entry key="petclinic_SocialRegistrationService"
                        value="com.haulmont.sample.petclinic.service.SocialRegistrationService"/>
-                <entry key="petclinic_GoogleService"
-                       value="com.haulmont.sample.petclinic.service.GoogleService"/>
-                <entry key="petclinic_FacebookService"
-                       value="com.haulmont.sample.petclinic.service.FacebookService"/>
-                <entry key="petclinic_GitHubService"
-                       value="com.haulmont.sample.petclinic.service.GitHubService"/>
-                <entry key="petclinic_VkService"
-                       value="com.haulmont.sample.petclinic.service.VkService"/>
+                <entry key="petclinic_SocialLoginService"
+                       value="com.haulmont.sample.petclinic.service.SocialLoginService"/>
             </map>
         </property>
     </bean>
